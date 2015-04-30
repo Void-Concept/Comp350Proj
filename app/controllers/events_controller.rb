@@ -1,4 +1,5 @@
 class EventsController < ApplicationController
+  before_filter :authenticate_user!, :only => [:new, :edit]
   before_action :set_event, only: [:show, :edit, :update, :destroy]
 
   # GET /events
@@ -24,7 +25,9 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
+    @user = current_user
     @event = Event.new(event_params)
+    @event.author = @user.email
 
     respond_to do |format|
       if @event.save
