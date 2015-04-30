@@ -20,6 +20,12 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
+    respond_to do |format|
+      if @event[:author] != current_user[:email]
+          format.html { redirect_to event_url, notice: 'You are not the author of this event.' }
+          format.json { render json: @event.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # POST /events
