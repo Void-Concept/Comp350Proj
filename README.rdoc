@@ -1,28 +1,18 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Installation Instructions:
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+- This project works with Ruby version 2.2.0 and Rails 4.2.0 or Rails 4.2.1
+- After installing the correct versions, run:
+	- bundle install
+	- rake db:migrate
+	- rails s
+- At this point, the Rails server should be running at localhost:3000/
+- You should see a calendar. In the top right corner, hit "Sign in"
+- You need to create an account. Create "Sign up" and fill in your credentials.
+- Back on the events page, look for the "New Event" button top-left of the calendar. Click on that.
+- Name your event and fill in the description and start/end time of the event and click "Create Event"
+- You should now see your event rendered on the calendar. You can click on the event to see the information page. It will also be listed down at the bottom of the page.
+- To edit your event, click the edit link either on the view page, or on the event at the bottom of the calendar page.
+	- Note: Only you can edit your own event. If you create a new account, you will not be able to edit your original account's event.
+- Events are visible to all users, and when not signed in.
