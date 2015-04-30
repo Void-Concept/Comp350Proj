@@ -5,9 +5,6 @@ class EventsController < ApplicationController
   # GET /events.json
   def index
     @events = Event.all
-    @events.each do |event|
-      #calendar.fullCalendar('renderEvent', event.as_json)
-    end
   end
 
   # GET /events/1
