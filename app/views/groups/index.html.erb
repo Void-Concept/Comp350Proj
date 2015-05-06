@@ -23,6 +23,7 @@
       <tr>
         <td><%= group.name %></td>
         <td><%= User.find(group.admin).email %></td>
+        <td><%= link_to 'Subscribe', subscribe_group_path(id: group.id) %></td>
         <td><%= link_to 'Show', group %></td>
         <% if user_signed_in? %>
             <% if current_user.id == group.admin %>

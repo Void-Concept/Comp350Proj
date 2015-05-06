@@ -15,13 +15,18 @@ class EventsController < ApplicationController
 
   # GET /events/new
   def new
+    if !Group.where(admin: current_user.id).first
+      respond_to do |format|
+        format.html { redirect_to new_group_url, notice: 'You must create a group first.' }
+        format.json { render json: @group.errors, status: :unprocessable_entity }
+      end
+    end
     @event = Event.new
   end
 
   # GET /events/1/edit
   def edit
     if @event.group != nil && @event.group != 0
-      puts Group.where(admin: current_user.id, id: @event.group).first
       group = Group.where(admin: current_user.id, id: @event.group).first
       if group == nil || !group
         respond_to do |format|

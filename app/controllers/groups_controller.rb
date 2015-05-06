@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
   before_filter :authenticate_user!, :only => [:new, :edit]
-  before_action :set_group, only: [:show, :edit, :update, :destroy]
+  before_action :set_group, only: [:subscribe, :show, :edit, :update, :destroy]
 
   # GET /groups
   # GET /groups.json
@@ -11,6 +11,25 @@ class GroupsController < ApplicationController
   # GET /groups/1
   # GET /groups/1.json
   def show
+  end
+
+  # GET /groups
+  # GET /groups.json
+  def subscribe
+    respond_to do |format|
+      if params[:id]
+        current_user.groups |= []
+        current_user.groups << params[:id].to_f
+        puts current_user.groups
+        puts params[:id]
+
+        format.html { redirect_to groups_url, notice: 'Subscribed to group event feed.' }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to groups_url, notice: 'Could not subscribe to group event feed.' }
+        format.json { head :no_content }
+      end
+    end
   end
 
   # GET /groups/new
@@ -80,6 +99,6 @@ class GroupsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
-      params.require(:group).permit(:name, :events, :admin, :members)
+      params.require(:group).permit(:name, :admins)
     end
 end

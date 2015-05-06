@@ -22,7 +22,7 @@
 
 <p>
   <strong>Group:</strong>
-  <%= @event.group %>
+  <%= Group.find(@event.group).name %>
 </p>
 
 <% if user_signed_in? %>
