@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
   before_filter :authenticate_user!, :only => [:new, :edit]
-  before_action :set_group, only: [:subscribe, :show, :edit, :update, :destroy]
+  before_action :set_group, only: [:subscribe, :unsubscribe, :show, :edit, :update, :destroy]
 
   # GET /groups
   # GET /groups.json
@@ -15,19 +15,37 @@ class GroupsController < ApplicationController
 
   # GET /groups
   # GET /groups.json
-  def subscribe
+  def unsubscribe
     respond_to do |format|
-      if params[:id]
-        current_user.groups |= []
-        current_user.groups << params[:id].to_f
-        puts current_user.groups
-        puts params[:id]
+      @group.members.delete(current_user.id)
 
-        format.html { redirect_to groups_url, notice: 'Subscribed to group event feed.' }
+      if @group.save
+        format.html { redirect_to groups_url, notice: 'Unsubscribed from group event feed.' }
         format.json { head :no_content }
       else
-        format.html { redirect_to groups_url, notice: 'Could not subscribe to group event feed.' }
+        format.html { redirect_to groups_url, notice: 'Could not unsubscribe from group event feed.' }
         format.json { head :no_content }
+      end
+    end
+  end
+
+  # GET /groups
+  # GET /groups.json
+  def subscribe
+    respond_to do |format|
+      if @group.members.include? current_user.id
+        format.html { redirect_to groups_url, notice: 'Already subscribed to group.' }
+        format.json { head :no_content }
+      else
+        @group.members << current_user.id
+
+        if @group.save
+          format.html { redirect_to groups_url, notice: 'Subscribed to group event feed.' }
+          format.json { head :no_content }
+        else
+          format.html { redirect_to groups_url, notice: 'Could not subscribe to group event feed.' }
+          format.json { head :no_content }
+        end
       end
     end
   end
@@ -53,7 +71,6 @@ class GroupsController < ApplicationController
     @group = Group.new(group_params)
     if current_user
       @group.admin = current_user.id
-      @group.members |= []
       @group.members << current_user.id
     end
     respond_to do |format|
@@ -63,6 +80,7 @@ class GroupsController < ApplicationController
       else
         format.html { render :new }
         format.json { render json: @group.errors, status: :unprocessable_entity }
+      
       end
     end
   end

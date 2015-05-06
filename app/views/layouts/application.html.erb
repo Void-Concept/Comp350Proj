@@ -5,6 +5,24 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+  <table style="width: 100%">
+  	<tr>
+			<th align='left'>
+				<%= link_to 'Events', events_path %>
+			</th>
+      <th align='right'>
+      	<%= link_to 'Groups', groups_path %>
+      </th>
+      <th align='right'>
+      	<% if user_signed_in? %>
+				<div align='right'><%= link_to 'Sign Out', destroy_user_session_path, method: :delete %></div>
+				<% end %>
+				<% if !user_signed_in? %>
+				<div align='right'><%= link_to 'Sign In', user_session_path, method: :create %></div>
+				<% end %>
+      </th>
+  	</tr>
+  </table>
 </head>
 <body>
 

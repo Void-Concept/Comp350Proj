@@ -2,13 +2,6 @@
 
 <h1>Listing Groups</h1>
 
-<% if user_signed_in? %>
-<div align='right'><%= link_to 'Sign Out', destroy_user_session_path, method: :delete %></div>
-<% end %>
-<% if !user_signed_in? %>
-<div align='right'><%= link_to 'Sign In', user_session_path, method: :create %></div>
-<% end %>
-
 <table>
   <thead>
     <tr>
@@ -23,7 +16,17 @@
       <tr>
         <td><%= group.name %></td>
         <td><%= User.find(group.admin).email %></td>
-        <td><%= link_to 'Subscribe', subscribe_group_path(id: group.id) %></td>
+        <td>
+          <% if user_signed_in? %>
+            <% if group.admin != current_user.id %>
+              <% if group.members.include? current_user.id %>
+                <%= link_to 'Unsubscribe', unsubscribe_group_path(id: group.id) %>
+              <% else %>
+                <%= link_to 'Subscribe', subscribe_group_path(id: group.id) %>
+              <% end %>
+            <% end %>
+          <% end %>
+        </td>
         <td><%= link_to 'Show', group %></td>
         <% if user_signed_in? %>
             <% if current_user.id == group.admin %>

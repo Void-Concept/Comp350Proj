@@ -5,7 +5,21 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
-    @events = Event.all
+    if current_user
+      groups = Array.new
+      Group.all.each do |group|
+        if group.members.include? current_user.id
+          groups << group
+        end
+      end
+      #groups = Group.where(:members => current_user.id).first
+
+      #@events = Event.where(:group => Group.where(:members => current_user.id))
+      #@events = Event.all
+      @events = Event.where(:group => groups)
+    else
+      @events = []
+    end
   end
 
   # GET /events/1

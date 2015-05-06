@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :groups do
     member do
       get 'subscribe'
+      get 'unsubscribe'
     end
   end
   resources :events

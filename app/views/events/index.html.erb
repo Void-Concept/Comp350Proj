@@ -27,18 +27,13 @@
 <h1>Events</h1>
 
 <% if user_signed_in? %>
-<div align='right'><%= link_to 'Sign Out', destroy_user_session_path, method: :delete %></div>
 <div align='left'><%= link_to 'New Event', new_event_path %></div>
-<div align='left'><%= link_to 'View Groups', groups_url %></div>
-<% end %>
-<% if !user_signed_in? %>
-<div align='right'><%= link_to 'Sign In', user_session_path, method: :create %></div>
 <% end %>
 
 <div id='calendar'></div>
 
 <center>
-  <table>
+  <table style="width: 90%">
     <thead>
       <tr>
         <th>Title</th>
