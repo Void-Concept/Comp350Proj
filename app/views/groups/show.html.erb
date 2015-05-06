@@ -1,0 +1,18 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @group.name %>
+</p>
+
+<p>
+  <strong>Admin:</strong>
+  <%= User.find(@group.admin).email %>
+</p>
+
+<% if user_signed_in? %>
+	<% if current_user.id == @group.admin %>
+		<%= link_to 'Edit', edit_group_path(@group) %> |
+	<% end %>
+<% end %>
+<%= link_to 'Back', groups_path %>

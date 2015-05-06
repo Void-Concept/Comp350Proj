@@ -20,10 +20,14 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
-    respond_to do |format|
-      if @event[:author] != current_user[:email]
+    if @event.group != nil && @event.group != 0
+      puts Group.where(admin: current_user.id, id: @event.group).first
+      group = Group.where(admin: current_user.id, id: @event.group).first
+      if group == nil || !group
+        respond_to do |format|
           format.html { redirect_to event_url, notice: 'You are not the author of this event.' }
           format.json { render json: @event.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -31,9 +35,10 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    @user = current_user
     @event = Event.new(event_params)
-    @event.author = @user.email
+    if (!@event.group)
+      @event.group = 0
+    end
 
     respond_to do |format|
       if @event.save
@@ -78,6 +83,6 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:title, :description, :start_time, :end_time)
+      params.require(:event).permit(:title, :description, :start_time, :end_time, :group)
     end
 end

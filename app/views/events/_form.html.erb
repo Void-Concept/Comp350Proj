@@ -20,6 +20,10 @@
     <%= f.text_area :description %>
   </div>
   <div class="field">
+    <%= f.label :group %><br>
+    <%= f.collection_select :group, Group.where(admin: current_user.id),:id,:name %>
+  </div>
+  <div class="field">
     <%= f.label :start_time %><br>
     <%= f.datetime_select :start_time %>
   </div>
@@ -27,6 +31,7 @@
     <%= f.label :end_time %><br>
     <%= f.datetime_select :end_time %>
   </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>

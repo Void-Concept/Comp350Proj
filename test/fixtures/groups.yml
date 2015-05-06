@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  events: 
+  tags: 
+  admin: 
+  members: 
+  tags: 
+
+two:
+  name: MyString
+  events: 
+  tags: 
+  admin: 
+  members: 
+  tags: 
